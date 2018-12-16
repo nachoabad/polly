@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Sentence:</strong>
+  <%= @choice.sentence %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @choice.position %>
+</p>
+
+<p>
+  <strong>Question:</strong>
+  <%= @choice.question %>
+</p>
+
+<%= link_to 'Edit', edit_choice_path(@choice) %> |
+<%= link_to 'Back', choices_path %>
