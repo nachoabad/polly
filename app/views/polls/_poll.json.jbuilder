@@ -1,2 +1,8 @@
-json.extract! poll, :id, :title, :slug, :user_id, :created_at, :updated_at
-json.url poll_url(poll, format: :json)
+json.extract! poll, :id, :title, :slug, :user_id
+
+json.questions @poll.questions do |question|
+  json.extract! question, :id, :sentence, :position, :poll_id
+  json.choices question.choices do |choice|
+    json.extract! choice, :id, :sentence, :position, :question_id
+  end
+end
