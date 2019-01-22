@@ -1,6 +1,7 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
+import React      from 'react'
+import ReactDOM   from 'react-dom'
+import PropTypes  from 'prop-types'
+import axios      from 'axios'
 
 class Poll extends React.Component {
   constructor(props) {
@@ -12,72 +13,109 @@ class Poll extends React.Component {
   }
   
   componentDidMount() {
-    const data = {"id":1,"title":"Conferencia Volkwageros","slug":"vw","user_id":1,"questions":[{"id":1,"sentence":"¿Cómo te pareció el evento?","position":1,"poll_id":1,"choices":[{"id":1,"sentence":"Excelente","position":1,"question_id":1},{"id":2,"sentence":"Normal","position":2,"question_id":1},{"id":3,"sentence":"Pésimo","position":3,"question_id":1}]},{"id":2,"sentence":"El precio fue...","position":2,"poll_id":1,"choices":[{"id":4,"sentence":"Barato","position":1,"question_id":2},{"id":5,"sentence":"Justo","position":2,"question_id":2},{"id":6,"sentence":"Caro","position":3,"question_id":2}]},{"id":3,"sentence":"¿Volverías el año próximo?","position":3,"poll_id":1,"choices":[{"id":7,"sentence":"Seguro","position":1,"question_id":3},{"id":8,"sentence":"No sé","position":2,"question_id":3},{"id":9,"sentence":"No","position":3,"question_id":3}]}]}
-    
-    this.setState({
-      poll: data,
-      question: data.questions[0].sentence
-    });
+    axios.get(`/${this.props.slug}.json`)
+    .then(response => {
+      this.setState({poll: response.data});
+      this.updateQuestion(response.data, this.state.currentQuestion)
+    })
+    .catch(error => console.log(error))
   }
   
-  render() {
-    return (
-      <div>
-        <Question sentence={this.state.question} />
-        <div className="row">
-          <Choice color="success" sentence={this.props.choice1} />
-          <Choice color="neutral" sentence={this.props.choice2} />
-          <Choice color="danger"  sentence={this.props.choice3} />
-        </div>
-      </div>
-    );
-  }
-}
-
-class Question extends React.Component {
-  render() {
-    return (
-      <h3>{this.props.sentence}</h3>
-    );
-  }
-}
-
-class Choice extends React.Component {
-  constructor(props) {
-    super(props);
-   
-    this.handleClick = this.handleClick.bind(this);
+  createAnswers(answers) {
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('[name="csrf-token"]').content;
+    axios.post( '/answers', { answers } )
+    .then(response => {
+      console.log(response)
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
   
   handleClick(id) {
-    console.log('The link was clicked.' + id);
+    let currentQuestion = this.state.currentQuestion
+    let answers         = this.state.answers
+    
+    answers.push(id)
+    this.setState({answers: answers});
+    this.setState({currentQuestion: ++currentQuestion});
+    this.updatePoll(currentQuestion);
+  }
+  
+  updatePoll(currentQuestion) {
+    if (currentQuestion == this.state.poll.questions.length) {
+      this.setState({pollCompleted: true})
+      this.createAnswers(this.state.answers)
+    } else {
+      this.updateQuestion(this.state.poll, currentQuestion)  
+    }
+  }
+  
+  updateQuestion(poll, currentQuestion) {
+    const question  = poll.questions[currentQuestion]
+    
+    this.setState({
+      question:   question.sentence,
+      choice1:    question.choices[0].sentence,
+      choice1_id: question.choices[0].id,
+      choice2:    question.choices[1].sentence,
+      choice2_id: question.choices[1].id,
+      choice3:    question.choices[2].sentence,
+      choice3_id: question.choices[2].id,
+    });
+  }
+  
+  renderChoice(color, sentence, id) {
+    return (
+      <Choice
+        color={color}
+        sentence={sentence}
+        onClick={() => this.handleClick(id)}
+      />
+    );
   }
   
   render() {
-    return (
-      <div className="col-12 text-center">
-        <button className={`btn btn-${this.props.color} btn-lg`}
-                onClick={this.handleClick.bind(this, 99)}>
-          {this.props.sentence}
-        </button>
-      </div>
-    );
+    if (!this.state.pollCompleted) {
+      return (
+        <div>
+          <Question sentence={this.state.question} />
+          <div className="row">
+            {this.renderChoice("success", this.state.choice1, this.state.choice1_id)}
+            {this.renderChoice("neutral", this.state.choice2, this.state.choice2_id)}
+            {this.renderChoice("danger",  this.state.choice3, this.state.choice3_id)}
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <h3>¡Muchas gracias!</h3>
+      );
+    }
   }
 }
 
-Poll.defaultProps = {
-  name: 'David'
+function Question(props) {
+  return <h3>{props.sentence}</h3>;
 }
 
-Poll.propTypes = {
-  name: PropTypes.string
+function Choice(props) {
+  return (
+    <div className="col-12 text-center">
+      <button className={`btn btn-${props.color} btn-lg`}
+              onClick={() => props.onClick()}
+      >
+        {props.sentence}
+      </button>
+    </div>
+  );
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const node = document.getElementById('react-poll')
+  const slug = node.dataset.slug
   ReactDOM.render(
-    <Poll choice1="EXCELENTE"
-          choice2="REGULAR"
-          choice3="PÉSIMO"/>,
-    document.getElementById('react-poll')
+    <Poll slug={slug}/>,
+    node
   )
 })
