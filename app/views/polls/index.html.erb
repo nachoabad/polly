@@ -1,31 +1,51 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Polls</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Slug</th>
-      <th>User</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @polls.each do |poll| %>
-      <tr>
-        <td><%= poll.title %></td>
-        <td><%= poll.slug %></td>
-        <td><%= poll.user %></td>
-        <td><%= link_to 'Show', poll %></td>
-        <td><%= link_to 'Edit', edit_poll_path(poll) %></td>
-        <td><%= link_to 'Destroy', poll, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Poll', new_poll_path %>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-transparent " color-on-scroll="100">
+  <div class="container">
+    <div class="navbar-translate">
+      <a class="navbar-brand" href="#" data-placement="bottom">
+        <span>OigO•</span>app
+      </a>
+    </div>
+  </div>
+</nav>
+<!-- End Navbar -->
+<div class="wrapper">
+  <section class="section">
+    <div class="container">
+      <% @questions.each do |question| %>
+        <div class="row row-grid justify-content-between">
+          <div class="col-md-12">
+            <div class="pl-md-12">
+              <h3><%= question.sentence %></h3>
+            </div>
+          </div>
+          <div class="col-md-12 mt-lg-12">
+            <div class="row">
+              <% question.choices.each do |choice| %>
+                <div class="col-lg-4 col-sm-12 px-2 py-2">
+                  <div class="card card-stats ">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-8 col-md-8">
+                          <h2 class=<%= choice.color %>><%= choice.sentence %></h2>
+                        </div>
+                        <div class="col-4 col-md-4">
+                          <div class="numbers">
+                            <p class=<%= choice.color %>><%= number_to_percentage(choice.percentage, precision: 0) %>
+                              <p>
+                                <p class="card-category"><%= choice.total %></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <hr>
+      <% end %>
+    </div>
+  </section>
+</div>

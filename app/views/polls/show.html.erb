@@ -1,19 +1,62 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @poll.title %>
-</p>
-
-<p>
-  <strong>Slug:</strong>
-  <%= @poll.slug %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @poll.user %>
-</p>
-
-<%= link_to 'Edit', edit_poll_path(@poll) %> |
-<%= link_to 'Back', polls_path %>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-transparent" color-on-scroll="100">
+    <div class="container">
+      <div class="navbar-translate">
+        <a class="navbar-brand" href="/polls" data-placement="bottom" target="_blank">
+          <span>OigO•</span> Evento 23 Enero
+        </a>
+      </div>
+    </div>
+  </nav>
+  <!-- End Navbar -->
+  <div class="wrapper">
+    <div class="page-header header-filter">
+      <div class="container">
+        <div class="text-center">
+          <% @poll.questions.each do |question|%>
+            <div class="row">
+              <div class="col-md-6 offset-md-3 col-sm-12">
+                <div class="card card-coin card-plain">
+                  <h4 class="title"><%= question.sentence %></h4>
+                  <div class="card-body">
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead class=" text-primary">
+                          <tr>
+                            <th class="header">
+                              <%= question.choices.first.sentence %>
+                            </th>
+                            <th class="header">
+                              <%= question.choices.second.sentence %>
+                            </th>
+                            <th class="header">
+                              <%= question.choices.third.sentence %>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <%= question.choices.first.answers.count %>
+                            </td>
+                            <td>
+                              <%= question.choices.second.answers.count %>
+                            </td>
+                            <td>
+                              <%= question.choices.third.answers.count %>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

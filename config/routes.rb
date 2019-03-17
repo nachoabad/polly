@@ -1,12 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   
-  resources :polls, shallow: true do
-    resources :questions, shallow: true do
-      resources :choices
-    end
-  end
-  
+  resources :polls, only: :index
   resources :answers, only: :create
   
   get 'pages/home'
