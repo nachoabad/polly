@@ -28,4 +28,4 @@ Question.second.choices.create({sentence: 'Caro', position: 3})
 
 Question.third.choices.create({sentence: 'Seguro', position: 1})
 Question.third.choices.create({sentence: 'No sé', position: 2})
-Question.third.choices.create({sentence: 'No', position: 3})
+Question.third.choices.create({sentence: 'No', position: 3})AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?

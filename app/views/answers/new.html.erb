@@ -37,8 +37,9 @@
       <div class="squares square7"></div>
       <div class="container">
         <div class="content-center brand text-center">
-          <div id="react-poll" data-slug=<%= @slug %>></div>
+          <div id="react-poll" data-slug=<%= @slug || 'home' %>></div>
         </div>
       </div>
     </div>
   </div>
+</body>
