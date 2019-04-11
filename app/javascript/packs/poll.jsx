@@ -87,6 +87,8 @@ class Poll extends React.Component {
           </div>
         </div>
       );
+    } else if (this.props.slug == 'home') {
+      window.location.href = '/users/sign_up';
     } else {
       return (
         <h3>¡Muchas gracias!</h3>
