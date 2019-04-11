@@ -1,29 +1,59 @@
-<h2>Sign up</h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg fixed-top navbar-transparent " color-on-scroll="100">
+  <div class="container">
+    <div class="navbar-translate">
+      <a class="navbar-brand" href="#">
+        <span>Oigo•</span> App
+      </a>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
+</nav>
+<!-- End Navbar -->
+<div class="wrapper">
+  <div class="page-header">
+    <div class="page-header-image"></div>
+    <div class="content">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 col-md-6 offset-lg-4 offset-md-3">
+            <div class="card card-register">
+              <% if devise_error_messages!.present? %>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="alert alert-warning text-center" role="alert">
+                      <%= devise_error_messages! %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+              <br>
+              <div class="card-body">
+                <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+                  <div class="form-group">
+                    <%= f.email_field :email, autofocus: true, autocomplete: :off, class: "form-control", placeholder: "Email" %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.password_field :password, class: "form-control", placeholder: "Clave" %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Clave" %>
+                  </div>
+                  <div class="card-footer">
+                    <%= f.submit "Registrarme", class: "btn btn-block btn-info btn-round btn-lg" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="register-bg"></div>
+        <div id="square1" class="square square-1"></div>
+        <div id="square2" class="square square-2"></div>
+        <div id="square3" class="square square-3"></div>
+        <div id="square4" class="square square-4"></div>
+        <div id="square5" class="square square-5"></div>
+        <div id="square6" class="square square-6"></div>
+      </div>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
