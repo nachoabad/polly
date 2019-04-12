@@ -30,13 +30,19 @@
               <div class="card-body">
                 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
                   <div class="form-group">
-                    <%= f.email_field :email, autofocus: true, autocomplete: :off, class: "form-control", placeholder: "Email" %>
+                    <%= f.text_field :name, autofocus: true, autocomplete: :off, class: "form-control", placeholder: "Nombre" %>
                   </div>
                   <div class="form-group">
-                    <%= f.password_field :password, class: "form-control", placeholder: "Clave" %>
+                    <%= f.text_field :phone, autocomplete: :off, class: "form-control", placeholder: "Teléfono" %>
                   </div>
                   <div class="form-group">
-                    <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirmar Clave" %>
+                    <%= f.email_field :email, autocomplete: :off, class: "form-control", placeholder: "Email", required: true %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.password_field :password, class: "form-control", placeholder: "Clave", required: true %>
+                  </div>
+                  <div class="form-group">
+                    <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirmar Clave", required: true %>
                   </div>
                   <div class="card-footer">
                     <%= f.submit "Solicitar Prueba", class: "btn btn-block btn-info btn-round btn-lg" %>
