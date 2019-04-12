@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   resources :polls, only: :index
   resources :answers, only: :create
   
-  get '/:slug', to: 'answers#new'
+  get '/gracias', to: 'pages#thanks', as: 'thanks'
+  get '/:slug',   to: 'answers#new'
   
   root "answers#new"
 end
