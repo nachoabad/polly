@@ -2,6 +2,8 @@ import React      from 'react'
 import ReactDOM   from 'react-dom'
 import PropTypes  from 'prop-types'
 import axios      from 'axios'
+import Choice     from './Choice'
+import Question   from './Question'
 
 class Poll extends React.Component {
   constructor(props) {
@@ -95,22 +97,6 @@ class Poll extends React.Component {
       );
     }
   }
-}
-
-function Question(props) {
-  return <h3>{props.sentence}</h3>;
-}
-
-function Choice(props) {
-  return (
-    <div className="col-12 text-center">
-      <button className={`btn btn-${props.color} btn-lg`}
-              onClick={() => props.onClick()}
-      >
-        {props.sentence}
-      </button>
-    </div>
-  );
 }
 
 document.addEventListener('DOMContentLoaded', () => {
