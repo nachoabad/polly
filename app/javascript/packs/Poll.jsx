@@ -10,6 +10,7 @@ class Poll extends React.Component {
     super(props);
     this.state = {
       answers: [],
+      choices: [],
       currentQuestion: 0
     };
   }
@@ -57,35 +58,25 @@ class Poll extends React.Component {
     const question  = poll.questions[currentQuestion]
     
     this.setState({
-      question:   question.sentence,
-      choice1:    question.choices[0].sentence,
-      choice1_id: question.choices[0].id,
-      choice2:    question.choices[1].sentence,
-      choice2_id: question.choices[1].id,
-      choice3:    question.choices[2].sentence,
-      choice3_id: question.choices[2].id,
+      question: question.sentence,
+      choices:  question.choices
     });
   }
-  
-  renderChoice(color, sentence, id) {
-    return (
-      <Choice
-        color={color}
-        sentence={sentence}
-        onClick={() => this.handleClick(id)}
-      />
-    );
-  }
-  
+
   render() {
     if (!this.state.pollCompleted) {
       return (
         <div>
           <Question sentence={this.state.question} />
           <div className="row">
-            {this.renderChoice("success", this.state.choice1, this.state.choice1_id)}
-            {this.renderChoice("neutral", this.state.choice2, this.state.choice2_id)}
-            {this.renderChoice("danger",  this.state.choice3, this.state.choice3_id)}
+            {this.state.choices.map(choice => (
+              <Choice
+                key={choice.id}
+                color={choice.color}
+                sentence={choice.sentence}
+                onClick={() => this.handleClick(choice.id)}
+              />
+            ))}
           </div>
         </div>
       );

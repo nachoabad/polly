@@ -11,15 +11,4 @@ class Choice < ApplicationRecord
   def percentage
     100 * total / question.total_answers
   end
-
-  def color
-    case position
-    when 1
-      'text-success'
-    when 2
-      'text-white'
-    when 3
-      'text-warning'
-    end
-  end
 end
